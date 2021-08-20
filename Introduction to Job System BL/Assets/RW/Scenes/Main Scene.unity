@@ -265,7 +265,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 61.977352
+  field of view: 58.84341
   orthographic: 0
   orthographic size: 184.89
   m_Depth: -1
@@ -290,13 +290,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.35355338, y: 0.35355338, z: -0.1464466, w: 0.8535535}
-  m_LocalPosition: {x: -352.1, y: 314.1, z: -379}
+  m_LocalRotation: {x: 0.29102573, y: 0.09165771, z: -0.028022576, w: 0.95190215}
+  m_LocalPosition: {x: -250.08, y: 117.33, z: -415.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 34, y: 11, z: 0}
 --- !u!1 &1387908357
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +354,7 @@ Transform:
   m_GameObject: {fileID: 1034683687662612359}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 39.786163, y: 54.56388, z: 84.4441}
+  m_LocalScale: {x: 65.9, y: 66.6, z: 84.4441}
   m_Children: []
   m_Father: {fileID: 7609050202437719716}
   m_RootOrder: 0
@@ -415,8 +415,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7609050202437719716}
-  - component: {fileID: 6900533880000668857}
   - component: {fileID: 6900533880000668856}
+  - component: {fileID: 6900533880000668857}
   m_Layer: 4
   m_Name: Water Manager
   m_TagString: Untagged
@@ -436,12 +436,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40380ac0a6b4ca1499911c5811f91143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useJobSystem: 1
   waterObject: {fileID: 5003363733161471690}
   fishPrefab: {fileID: 8816889875483111277, guid: 2b9d52ba341f12549bbad904668b74fc,
     type: 3}
   fishParent: {fileID: 1387908358}
-  amountOfFish: 10
-  spawnBounds: {x: 470, y: 47, z: 470}
+  amountOfFish: 10000
+  spawnBounds: {x: 880, y: 47, z: 680}
   spawnHeight: 0
   swimChangeFrequency: 250
   swimSpeed: 50
@@ -458,6 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307715fb5205d6848a2e3dccdb7a41be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useJobSystem: 1
   waveScale: 0.24
   waveOffsetSpeed: 1.06
   waveHeight: 0.16
@@ -471,7 +473,7 @@ Transform:
   m_GameObject: {fileID: 6900533880000668855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.95176643, y: 1, z: 0.8683593}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5003363733161471690}
   m_Father: {fileID: 0}
