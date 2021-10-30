@@ -149,7 +149,8 @@ public class FishGenerator : MonoBehaviour {
 #endregion
 
 #region Job system struct
-    [BurstCompile] struct PositionUpdateJob : IJobParallelForTransform {
+    [BurstCompile]
+    struct PositionUpdateJob : IJobParallelForTransform {
         public NativeArray<Vector3> objectVelocities;
 
         public Vector3 bounds;
