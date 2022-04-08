@@ -20,8 +20,6 @@ public class StarManager : MonoBehaviour {
   private TransformAccessArray starTfmAccessArray;
   private NativeList<float3> starVelocities;
   private NativeList<float> starMasses;
-  private NativeList<JobHandle> calcDistsJobHandles;
-  private NativeList<JobHandle> applyGravityJobHandles;
   private JobHandle moveStarsJobHandle;
   private MoveStarsJob moveStarsJob;
   Random rand;
@@ -31,8 +29,6 @@ public class StarManager : MonoBehaviour {
     starTfmAccessArray = new TransformAccessArray(maxStars);
     starVelocities = new NativeList<float3>(maxStars, Allocator.Persistent);
     starMasses = new NativeList<float>(maxStars, Allocator.Persistent);
-    calcDistsJobHandles = new NativeList<JobHandle>(maxStars, Allocator.Persistent);
-    applyGravityJobHandles = new NativeList<JobHandle>(maxStars, Allocator.Persistent);
     // randomSeed = (uint)UnityEngine.Random.Range(1, 9999999);  // uncomment this for non-deterministic random seed
     rand = new Random(randomSeed);
   }
@@ -73,8 +69,6 @@ public class StarManager : MonoBehaviour {
     starTfmAccessArray.Dispose();
     starVelocities.Dispose();
     starMasses.Dispose();
-    calcDistsJobHandles.Dispose();
-    applyGravityJobHandles.Dispose();
   }
 
   private void SpawnStar(GameObject prefab, Vector3 pos, float mass) {   
@@ -84,9 +78,7 @@ public class StarManager : MonoBehaviour {
     newStar.Initialize(mass);
     starVelocities.Add(new float3(rand.NextFloat()-.5f, rand.NextFloat()-.5f, rand.NextFloat()-.5f) * 2); // TEST
     // starVelocities.Add(newStar.velocity); // TODO: make sure this is getting the reference to edit velocity and not just the value
-    // starMasses.Add(newStar.mass);         // TODO: same here
-    calcDistsJobHandles.Add(new JobHandle());
-    applyGravityJobHandles.Add(new JobHandle());
+    starMasses.Add(mass); // TODO: GET REFERENCE TO ACTUAL STAR MASS IF POSSIBLE
   }
 
   

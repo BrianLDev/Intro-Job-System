@@ -14,15 +14,17 @@ public class Star : MonoBehaviour {
   public float mass;   // TODO: need to sync with mass in rigidbody
   public float3 velocity;
   public float3 gravityForce;
-  private Rigidbody rb;
+  // private Rigidbody rb;
+  private const float GRAVITY = 6.67430e-11f;
   // job related variables - to be called by StarManager
   private NativeList<float3> distances;
+  public JobHandle calcDistJobHandle, applyGravityJobHandle;
   public CalcDistancesJob calcDistancesJob;
   public ApplyGravityJob applyGravityJob;
 
   private void Start() {
     velocity = gravityForce = float3.zero;
-    rb = GetComponent<Rigidbody>();
+    // rb = GetComponent<Rigidbody>();
     distances = new NativeList<float3>(Allocator.Persistent);
   }
 
@@ -33,6 +35,36 @@ public class Star : MonoBehaviour {
 
   private void OnDestroy() {
     distances.Dispose();
+  }
+
+  // StartJobs is called by StarManager on all Stars
+  public void StartJobs(TransformAccessArray taa, NativeList<float> starMasses, NativeList<float3> starDistances) {
+    // reset forces
+    gravityForce = 0;
+
+    // set up jobs
+    calcDistancesJob = new CalcDistancesJob {
+      starPos = transform.position,
+      results = distances
+    };
+
+    applyGravityJob = new ApplyGravityJob {
+      starMass = mass,
+      gravForce = gravityForce,
+      masses = starMasses,
+      distances = starDistances,
+      G = GRAVITY
+    };
+
+    // schedule jobs
+    calcDistJobHandle = calcDistancesJob.Schedule(taa);
+    applyGravityJobHandle = applyGravityJob.Schedule(taa, calcDistJobHandle);
+  }
+
+  // CompleteJobs is called by StarManager on all Stars
+  public void CompleteJobs() {
+    calcDistJobHandle.Complete();
+    applyGravityJobHandle.Complete();
   }
 
   // NOTE: jobs will be called by StarManager since they have List of all stars

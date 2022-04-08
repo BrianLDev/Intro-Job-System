@@ -330,8 +330,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starPrefab: {fileID: 5682178668045385109, guid: 181282d3423ef474d9c48264c7a2667a,
     type: 3}
-  starsToSpawn: 500
-  spawnRadius: 50
+  starsToSpawn: 50000
+  spawnRadius: 500
 --- !u!4 &1700484312
 Transform:
   m_ObjectHideFlags: 0
