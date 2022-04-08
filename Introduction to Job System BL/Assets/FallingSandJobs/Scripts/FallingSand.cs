@@ -35,6 +35,7 @@ public class FallingSand : MonoBehaviour {
 
   private void Update() {
     // Create new sand particle on mouse click
+    // TODO: separate this out into an input handler script and simply call instantiate sand from there
     if (mouse.leftButton.IsPressed()) {
       // convert mouse pos to world pos
       mousePos = Mouse.current.position.ReadValue();
@@ -42,15 +43,10 @@ public class FallingSand : MonoBehaviour {
       mouseWorldPos = mainCamera.ScreenToWorldPoint(mousePos);
       mouseWorldPos.z = 0;
       // Instantiate sand and add to NativeLists
-      newSandTfm = Instantiate(sandPrefab, mouseWorldPos, Quaternion.identity).transform;
-      sandTfmAccessArray.Add(newSandTfm);
-      Vector3 velocity = new Vector3();
-      sandVelocities.Add(velocity);
-      float mass = sandMass;
-      sandMasses.Add(mass);
+      InstantiateSand(mouseWorldPos);
     }
 
-    // define apply gravity job
+    // set up job: apply gravity
     applyGravityJob = new ApplyForceJob() {
       forceVelocity = GRAVITY,
       velocities = sandVelocities,
@@ -58,7 +54,7 @@ public class FallingSand : MonoBehaviour {
       deltaTime = Time.deltaTime
     };
 
-    // define move sand job
+    // set up job: move sand
     moveSandJob = new MoveSandJob() {
       velocities = sandVelocities,
       deltaTime = Time.deltaTime
@@ -72,7 +68,7 @@ public class FallingSand : MonoBehaviour {
   }
 
   private void LateUpdate() {
-    applyGravityJobHandle.Complete();  // shouldn't need to do this since the other job is dependent on it
+    // applyGravityJobHandle.Complete();  // shouldn't need to do this since the other job is dependent on it
     moveSandJobHandle.Complete();
   }
 
@@ -80,6 +76,15 @@ public class FallingSand : MonoBehaviour {
     sandTfmAccessArray.Dispose();
     sandVelocities.Dispose();
     sandMasses.Dispose();
+  }
+
+  public void InstantiateSand(Vector3 pos) {
+      newSandTfm = Instantiate(sandPrefab, mouseWorldPos, Quaternion.identity).transform;
+      sandTfmAccessArray.Add(newSandTfm);
+      Vector3 velocity = new Vector3();
+      sandVelocities.Add(velocity);
+      float mass = sandMass;
+      sandMasses.Add(mass);
   }
 
   
@@ -101,7 +106,10 @@ public class FallingSand : MonoBehaviour {
     public float deltaTime;
 
     public void Execute(int i, TransformAccess transform) {
+      if (transform.position.y < 0)
+        velocities[i] *= -0.9f;
       transform.position += velocities[i] * deltaTime;
+
     }
   }
 
