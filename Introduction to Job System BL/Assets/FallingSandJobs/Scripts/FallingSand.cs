@@ -9,6 +9,8 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine.InputSystem;
 
+// TODO: IMPLEMENT GRID SYSTEM AND USE CELLULAR AUTOMATA INSTEAD OF UNITY 3D SPACE
+
 public class FallingSand : MonoBehaviour {
   [SerializeField] private GameObject sandPrefab;
   [SerializeField] private int sandMax = 10000;
@@ -35,6 +37,7 @@ public class FallingSand : MonoBehaviour {
 
   private void Update() {
     // Create new sand particle on mouse click
+    // TODO: fix mouse input not matching to screen
     // TODO: separate this out into an input handler script and simply call instantiate sand from there
     if (mouse.leftButton.IsPressed()) {
       // convert mouse pos to world pos
